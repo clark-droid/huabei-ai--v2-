@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<title>花呗 AI智伴 — 理性消费新范式</title>
+<meta name="description" content="花呗AI智伴 · 蚂蚁集团产品设计作品 · 邹楠"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:#f0f0f5;display:flex;align-items:flex-start;justify-content:center;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;}
+.page-wrap{display:flex;flex-direction:column;align-items:center;padding:20px 0 30px;}
+.page-title{font-size:12px;color:#bbb;margin-bottom:14px;letter-spacing:.5px;}
+.phone{width:375px;height:668px;border-radius:32px;border:1px solid #ddd;overflow:hidden;display:flex;flex-direction:column;background:#f2f2f7;box-shadow:0 20px 60px rgba(0,0,0,.12);}
+.ph{background:#fff;border-bottom:.5px solid #e8e8e8;padding:10px 16px 8px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;}
+.ph-t{font-size:15px;font-weight:500;color:#1c1c1e;}
+.ph-s{font-size:10px;color:#999;}
+.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+.screen{display:none;padding:0 0 20px;}
+.screen.active{display:block;}
+.bnav{background:#fff;border-top:.5px solid #e8e8e8;display:grid;grid-template-columns:repeat(3,1fr);padding:6px 0 7px;flex-shrink:0;}
+.nb{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:3px 4px;color:#bbb;font-family:inherit;}
+.nb.on{color:#D85A30;}
+.nb svg{width:20px;height:20px;}
+.nb span{font-size:10px;font-weight:500;}
+.card{background:#fff;border:.5px solid #ebebeb;border-radius:12px;padding:12px 13px;margin:0 14px 9px;}
+.ct{font-size:11px;font-weight:500;color:#888;margin-bottom:8px;}
+.hero{background:#D85A30;padding:16px 14px 14px;margin-bottom:0;}
+.itab-bar{display:flex;background:#f2f2f7;padding:3px;gap:2px;margin:10px 14px 11px;border-radius:10px;}
+.itab{flex:1;border:none;background:transparent;padding:7px 4px;border-radius:8px;font-size:12px;cursor:pointer;color:#888;font-weight:500;font-family:inherit;transition:all .15s;}
+.itab.on{background:#fff;color:#D85A30;border:.5px solid #ebebeb;}
+.itab-content{display:none;}
+.itab-content.on{display:block;}
+.pt{height:5px;background:rgba(0,0,0,.08);border-radius:4px;overflow:hidden;}
+.pf{height:100%;border-radius:4px;}
+.ib-r{background:#FAECE7;border:.5px solid #F0997B;border-radius:10px;padding:11px 12px;margin:0 14px 9px;}
+.ib-g{background:#E1F5EE;border:.5px solid #9FE1CB;border-radius:10px;padding:11px 12px;margin:0 14px 9px;}
+.ib-w{background:#FAEEDA;border:.5px solid #FAC775;border-radius:10px;padding:11px 12px;margin:0 14px 9px;}
+.tog{width:34px;height:19px;border-radius:10px;background:#ccc;cursor:pointer;position:relative;border:none;flex-shrink:0;}
+.tog.on{background:#1D9E75;}
+.tog::after{content:'';position:absolute;top:2.5px;left:2.5px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .18s;}
+.tog.on::after{left:17.5px;}
+.rg{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:9px;}
+.ri{background:#f9f9f9;border-radius:8px;padding:9px 8px;text-align:center;}
+.rv{font-size:17px;font-weight:500;color:#1c1c1e;}
+.rl{font-size:10px;color:#999;margin-top:2px;}
+.seg{display:flex;background:#f2f2f7;border-radius:8px;padding:2px;gap:2px;}
+.segb{flex:1;border:none;background:transparent;padding:5px;border-radius:6px;font-size:11px;cursor:pointer;color:#666;font-weight:500;font-family:inherit;}
+.segb.on{background:#fff;color:#D85A30;border:.5px solid #ebebeb;}
+.lvb{background:#D85A30;border-radius:12px;padding:13px;margin-bottom:9px;display:flex;align-items:center;gap:11px;}
+.lvc{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:#fff;text-align:center;line-height:1.3;flex-shrink:0;}
+.tk{display:flex;align-items:center;gap:9px;padding:6px 0;}
+.ck{width:18px;height:18px;border-radius:50%;border:1.5px solid #ccc;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.ck.ok{background:#1D9E75;border-color:#1D9E75;}
+.post{background:#fff;border:.5px solid #ebebeb;border-radius:12px;padding:12px 13px;margin:0 14px 8px;}
+.ava{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;}
+.tag{display:inline-block;padding:2px 7px;border-radius:8px;font-size:10px;font-weight:500;}
+.lbtn{display:flex;align-items:center;gap:4px;background:none;border:none;cursor:pointer;font-size:11px;color:#bbb;padding:3px 6px;border-radius:6px;font-family:inherit;}
+.lbtn.liked{color:#D85A30;}
+.lbtn svg{width:13px;height:13px;}
+.fseg-wrap{display:flex;gap:6px;padding:0 14px 10px;overflow-x:auto;}
+.fseg{border:none;background:#f2f2f7;border-radius:14px;padding:5px 13px;font-size:11px;font-weight:500;cursor:pointer;color:#666;white-space:nowrap;font-family:inherit;}
+.fseg.on{background:#D85A30;color:#fff;}
+.msgs{display:flex;flex-direction:column;gap:8px;padding:4px 14px 8px;}
+.msg{max-width:83%;padding:9px 11px;font-size:13px;line-height:1.5;}
+.msg.ai{align-self:flex-start;background:#f2f2f7;color:#1c1c1e;border-radius:3px 12px 12px 12px;}
+.msg.me{align-self:flex-end;background:#D85A30;color:#fff;border-radius:12px 3px 12px 12px;}
+.qchip{padding:6px 12px;border-radius:20px;font-size:11px;cursor:pointer;border:.5px solid #e0e0e0;background:#fff;color:#444;font-family:inherit;white-space:nowrap;}
+.mic-btn{width:36px;height:36px;border-radius:50%;border:.5px solid #ddd;background:#f9f9f9;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#888;transition:all .2s;}
+.mic-btn.on{background:#FAECE7;border-color:#D85A30;color:#D85A30;animation:mp 1s infinite;}
+@keyframes mp{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.sbtn{background:#D85A30;color:#fff;border:none;border-radius:10px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;}
+.cinput{display:flex;gap:6px;border-top:.5px solid #e8e8e8;padding:9px 14px 4px;align-items:center;}
+.cinput input{flex:1;border:.5px solid #e0e0e0;border-radius:10px;padding:8px 11px;font-size:13px;background:#fff;color:#1c1c1e;outline:none;font-family:inherit;}
+.dots{display:flex;gap:3px;align-items:center;padding:2px 0;}
+.dot{width:5px;height:5px;border-radius:50%;background:#999;animation:bk 1.2s infinite;}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes bk{0%,60%,100%{opacity:.3;transform:scale(1)}30%{opacity:1;transform:scale(1.3)}}
+.persona-row{display:flex;gap:6px;padding:0 14px 10px;}
+.ptag{padding:5px 11px;border-radius:14px;font-size:11px;cursor:pointer;border:.5px solid #e0e0e0;background:transparent;color:#666;font-family:inherit;}
+.ptag.on{background:#FAECE7;border-color:#D85A30;color:#D85A30;}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="page-title">花呗 AI智伴 · 蚂蚁集团产品设计 · 邹楠 中山大学</div>
+<div class="phone">
+<div class="ph">
+  <div><div class="ph-t">花呗 AI智伴</div><div class="ph-s">理性消费 · 第18天</div></div>
+  <div style="display:flex;align-items:center;gap:6px;">
+    <div style="background:#E1F5EE;border-radius:10px;padding:3px 9px;font-size:10px;font-weight:500;color:#0F6E56;">Lv.2</div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#FAECE7;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D85A30"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+  </div>
+</div>
+<div class="content">
+
+<div class="screen active" id="s0">
+  <div class="hero">
+    <div style="color:rgba(255,255,255,.7);font-size:11px;margin-bottom:2px;">本月理性消费进度</div>
+    <div style="color:#fff;font-size:28px;font-weight:500;">距目标还差 ¥153</div>
+    <div style="color:rgba(255,255,255,.65);font-size:11px;margin:3px 0 10px;">已花 ¥1,847 / 预算 ¥3,000 · 剩余12天</div>
+    <div style="height:6px;background:rgba(255,255,255,.25);border-radius:4px;overflow:hidden;"><div style="width:61.6%;height:100%;background:#fff;border-radius:4px;"></div></div>
+    <div style="display:flex;justify-content:space-between;margin-top:6px;"><span style="color:rgba(255,255,255,.6);font-size:10px;">61.6% 已用</span><span style="color:rgba(255,255,255,.8);font-size:10px;font-weight:500;">连续 18 天未超支 🎯</span></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px 14px 0;">
+    <div style="background:#fff;border:.5px solid #ebebeb;border-radius:12px;padding:10px 8px;text-align:center;"><div style="font-size:16px;font-weight:500;color:#1D9E75;">280</div><div style="font-size:10px;color:#999;margin-top:2px;">理性积分</div></div>
+    <div style="background:#fff;border:.5px solid #ebebeb;border-radius:12px;padding:10px 8px;text-align:center;"><div style="font-size:16px;font-weight:500;color:#D85A30;">¥0</div><div style="font-size:10px;color:#999;margin-top:2px;">本月超支</div></div>
+    <div style="background:#fff;border:.5px solid #ebebeb;border-radius:12px;padding:10px 8px;text-align:center;"><div style="font-size:16px;font-weight:500;color:#BA7517;">9折</div><div style="font-size:10px;color:#999;margin-top:2px;">分期优惠</div></div>
+  </div>
+  <div style="margin:10px 14px 0;background:#FAECE7;border:.5px solid #F0997B;border-radius:12px;padding:11px 13px;display:flex;gap:9px;align-items:flex-start;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#D85A30;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
+    <div><div style="font-size:11px;font-weight:500;color:#993C1D;margin-bottom:3px;">AI智伴 · 今日提醒</div><div style="font-size:12px;color:#712B13;line-height:1.5;">购物类支出占 46%，比建议高 16%。本周有 2 笔咖啡消费可以优化，点我查看建议 →</div></div>
+  </div>
+  <div class="itab-bar">
+    <button class="itab on" id="it0" onclick="setIT(0)">预算管家</button>
+    <button class="itab" id="it1" onclick="setIT(1)">透明分期</button>
+    <button class="itab" id="it2" onclick="setIT(2)">成长体系</button>
+  </div>
+  <div class="itab-content on" id="ic0">
+    <div class="card"><div class="ct">分类预算</div><div id="catL"></div></div>
+    <div class="card"><div class="ct">预警设置</div><div id="altL"></div></div>
+  </div>
+  <div class="itab-content" id="ic1">
+    <div class="card">
+      <div class="ct">我想分期的金额</div>
+      <div style="display:flex;align-items:center;border:.5px solid #e0e0e0;border-radius:8px;padding:10px 12px;background:#fafafa;margin-bottom:9px;"><span style="color:#888;font-size:15px;margin-right:4px;">¥</span><input type="number" id="iAmt" value="3000" oninput="calcI()" style="flex:1;border:none;background:transparent;font-size:17px;font-weight:500;color:#1c1c1e;outline:none;font-family:inherit;"/></div>
+      <div class="ct">分期期数</div>
+      <div class="seg" id="pSeg" style="margin-bottom:0;"><button class="segb" onclick="selP(3)">3期</button><button class="segb on" onclick="selP(6)">6期</button><button class="segb" onclick="selP(12)">12期</button><button class="segb" onclick="selP(24)">24期</button></div>
+    </div>
+    <div class="card" id="iRes"></div>
+    <div class="ib-w" id="iWarn"></div>
+    <div class="ib-g"><div style="font-size:12px;font-weight:500;color:#0F6E56;margin-bottom:3px;">3天冷静期</div><div style="font-size:12px;color:#085041;line-height:1.5;">分期后3天内可免手续费取消。AI会在第1天和第3天主动确认你是否真的需要。</div></div>
+  </div>
+  <div class="itab-content" id="ic2">
+    <div style="padding:0 14px;">
+      <div class="lvb"><div class="lvc">Lv.2<br>理性<br>消费者</div><div style="flex:1;"><div style="color:#fff;font-size:13px;font-weight:500;">理性消费者</div><div style="color:rgba(255,255,255,.7);font-size:10px;margin:3px 0 6px;">280/500 分 · 距 Lv.3 差 220 分</div><div style="height:5px;background:rgba(255,255,255,.3);border-radius:4px;overflow:hidden;"><div style="width:56%;height:100%;background:#fff;border-radius:4px;"></div></div></div></div>
+    </div>
+    <div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div class="ct" style="margin:0;">今日任务</div><div id="todXP" style="font-size:11px;color:#D85A30;font-weight:500;">今日 +10分</div></div><div id="dtL"></div></div>
+    <div class="card"><div class="ct">等级权益</div><div style="display:flex;flex-direction:column;"><div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:.5px solid #f2f2f7;"><span style="font-size:12px;color:#1c1c1e;">Lv.2 理性消费者</span><span style="font-size:11px;color:#D85A30;background:#FAECE7;padding:2px 8px;border-radius:8px;">分期9折 · 当前</span></div><div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:.5px solid #f2f2f7;"><span style="font-size:12px;color:#888;">Lv.3 理财达人</span><span style="font-size:11px;color:#888;">分期8.5折</span></div><div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;"><span style="font-size:12px;color:#888;">Lv.4 财务大师</span><span style="font-size:11px;color:#888;">分期8折 · VIP通道</span></div></div></div>
+  </div>
+</div>
+
+<div class="screen" id="s1">
+  <div style="padding:12px 14px 8px;"><div style="font-size:15px;font-weight:500;color:#1c1c1e;">理性消费圈</div><div style="font-size:11px;color:#999;margin-top:2px;">分享薅羊毛 · 附近优惠 · 理财心得</div></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 14px 12px;">
+    <div style="background:#FAEEDA;border-radius:12px;padding:11px 8px;cursor:pointer;text-align:center;" onclick="fG('lc')"><div style="font-size:18px;margin-bottom:3px;">📈</div><div style="font-size:11px;font-weight:500;color:#BA7517;line-height:1.3;">理财群</div><div style="font-size:9px;color:#BA7517;opacity:.7;margin-top:2px;">2,341人</div></div>
+    <div style="background:#E1F5EE;border-radius:12px;padding:11px 8px;cursor:pointer;text-align:center;" onclick="fG('jj')"><div style="font-size:18px;margin-bottom:3px;">📊</div><div style="font-size:11px;font-weight:500;color:#0F6E56;line-height:1.3;">基金圈</div><div style="font-size:9px;color:#0F6E56;opacity:.7;margin-top:2px;">1,876人</div></div>
+    <div style="background:#FAECE7;border-radius:12px;padding:11px 8px;cursor:pointer;text-align:center;" onclick="fG('lj')"><div style="font-size:18px;margin-bottom:3px;">📍</div><div style="font-size:11px;font-weight:500;color:#993C1D;line-height:1.3;">附近优惠</div><div style="font-size:9px;color:#993C1D;opacity:.7;margin-top:2px;">3,012人</div></div>
+  </div>
+  <div class="fseg-wrap" id="fSeg"></div>
+  <div id="postFeed"></div>
+</div>
+
+<div class="screen" id="s2">
+  <div style="padding:10px 14px 0;"><div style="font-size:14px;font-weight:500;color:#1c1c1e;">你的专属理财助手</div><div style="font-size:11px;color:#999;margin-top:2px;">语音/文字 · 3种风格</div></div>
+  <div class="persona-row" style="padding-top:9px;">
+    <button class="ptag on" id="pa" onclick="setP('a')">严谨顾问</button>
+    <button class="ptag" id="pb" onclick="setP('b')">贴心闺蜜</button>
+    <button class="ptag" id="pc" onclick="setP('c')">幽默损友</button>
+  </div>
+  <div class="msgs" id="chatM" style="min-height:200px;max-height:310px;overflow-y:auto;"></div>
+  <div id="presetWrap" style="padding:0 14px 8px;overflow-x:auto;display:flex;gap:6px;flex-wrap:nowrap;"></div>
+  <div id="voiceHint" style="text-align:center;font-size:11px;color:#D85A30;padding:3px 0;display:none;font-weight:500;">正在聆听，请说话...</div>
+  <div class="cinput">
+    <button class="mic-btn" id="micBtn" onclick="togMic()"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg></button>
+    <input type="text" id="ci" placeholder="问问我今天能花多少…" onkeydown="if(event.key==='Enter')doC()"/>
+    <button class="sbtn" onclick="doC()">发送</button>
+  </div>
+</div>
+
+</div>
+<div class="bnav">
+  <button class="nb on" id="n0" onclick="sw(0)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg><span>管理中心</span></button>
+  <button class="nb" id="n1" onclick="sw(1)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>消费圈</span></button>
+  <button class="nb" id="n2" onclick="sw(2)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>AI助手</span></button>
+</div>
+</div>
+<div style="font-size:11px;color:#ccc;margin-top:10px;text-align:center;">语音需授权麦克风 · AI对话接入 Claude API</div>
+</div>
+
+<script>
+const CATS=[{n:'餐饮',s:620,b:800,c:'#D85A30'},{n:'购物',s:850,b:1000,c:'#E24B4A'},{n:'娱乐',s:180,b:300,c:'#BA7517'},{n:'交通',s:197,b:400,c:'#1D9E75'},{n:'其他',s:0,b:500,c:'#888780'}];
+const ALTS=[{id:'a1',l:'温和提醒',d:'超预算时文字提示',on:true,tag:'默认'},{id:'a2',l:'确认弹窗',d:'超支时需手动确认',on:false},{id:'a3',l:'24h冷静期',d:'大额超支延迟支付',on:false}];
+const DT=[{id:'d1',t:'查看消费日报（预算打卡）',x:10,ok:true},{id:'d2',t:'记录今日消费',x:5,ok:false},{id:'d3',t:'阅读AI建议',x:5,ok:false}];
+const RATES={3:.025,6:.045,12:.075,24:.15};
+const MOS=['2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月','1月','2月','3月'];
+const ALL_POSTS=[
+  {id:1,g:'lc',user:'理财小白君',uid:'LX',uc:'#FAEEDA',utc:'#BA7517',time:'10分钟前',lbl:'理财',lblbg:'#FAEEDA',lbltc:'#BA7517',content:'这个月省下来的¥800转入余额宝了，虽然利率不高，但先养成习惯比什么都强。花呗按时还款真的很重要，不然手续费吃掉一切。',likes:24,liked:false,cmts:6},
+  {id:2,g:'lc',user:'省钱达人Alice',uid:'SA',uc:'#E1F5EE',utc:'#0F6E56',time:'32分钟前',lbl:'理财',lblbg:'#FAEEDA',lbltc:'#BA7517',content:'提醒大家：花呗分期手续费算下来年化不低，能全款绝对不分期。之前买了台¥4000电脑分12期，后来算了下多付了¥300，心疼。',likes:56,liked:false,cmts:13},
+  {id:3,g:'jj',user:'定投不择时',uid:'DT',uc:'#E1F5EE',utc:'#085041',time:'15分钟前',lbl:'基金',lblbg:'#E1F5EE',lbltc:'#0F6E56',content:'今天沪深300又绿了，但没关系，定投的意义就是不择时。这个月继续买入¥500，拉低了成本，长期来看都是好事。',likes:41,liked:false,cmts:9},
+  {id:4,g:'jj',user:'财务自由规划师',uid:'CZ',uc:'#EAF3DE',utc:'#3B6D11',time:'2小时前',lbl:'基金',lblbg:'#E1F5EE',lbltc:'#0F6E56',content:'把每月花呗省下的手续费直接定投基金。¥200/月，20年按年化8%算大概能到¥12万+。时间才是最好的杠杆。',likes:89,liked:false,cmts:31},
+  {id:5,g:'lj',user:'上海薅羊毛王',uid:'SH',uc:'#FAECE7',utc:'#D85A30',time:'5分钟前',lbl:'附近优惠',lblbg:'#FAECE7',lbltc:'#993C1D',content:'上海·徐汇区 | 永辉超市会员日，生鲜满¥60减¥15，花呗支付再减¥5。有效到今晚12点，肇嘉浜路店。',likes:67,liked:false,cmts:4},
+  {id:6,g:'lj',user:'北京吃货侦探',uid:'BJ',uc:'#E6F1FB',utc:'#0C447C',time:'28分钟前',lbl:'附近优惠',lblbg:'#FAECE7',lbltc:'#993C1D',content:'北京·朝阳区 | 新开云南菜首日全场8折，人均约¥60。店名：滇味食堂（三里屯店），附近的可以去！',likes:52,liked:false,cmts:11},
+];
+const PRESETS={a:['本月还能花多少？','购物超支怎么办？','帮我分析消费结构','制定下月预算计划'],b:['宝，这月花多了咋整？','我想买个包要分期吗？','帮我看看省哪里？','攒钱小妙招有吗？'],c:['哥们我又超支了','这笔分期值不值？','我月光了你说我','给我整个省钱方案']};
+const PRESET_REPLIES={'本月还能花多少？':'本月已花¥1847，还剩¥1153。按剩余12天算，每天可以花约¥96。建议购物类控制住，餐饮和交通保持现状，月底收支应该能平衡。','购物超支怎么办？':'购物已用¥850/¥1000，快到上限了。建议这周把想买的东西加进「愿望清单」，冷静3天再决定。统计显示冷静期后60%的冲动消费会被取消。','帮我分析消费结构':'你本月消费结构：餐饮31%/购物46%/娱乐9%/交通10%。同龄人购物占比均值约30%，你偏高了16%。建议把购物预算降至¥800，多出来的¥200转入余额宝。','制定下月预算计划':'基于你这月数据，下月建议：餐饮¥700（↑80）、购物¥800（↓200）、娱乐¥250（↑70）、交通¥200（持平）、其他¥300。总计¥2250，省下¥750可以存起来。','宝，这月花多了咋整？':'宝别慌！还有¥1153呢，够用12天的。购物有点偏高，这周先别逛淘宝了哈😂 咖啡能少喝一杯就少喝一杯，月底说不定还能存点小钱！加油！','我想买个包要分期吗？':'宝先告诉我多少钱的包？如果超过¥2000，可以分3期，手续费才¥50，不算太心疼。但购物本月快超标了……要不要先加愿望清单冷静3天？','帮我看看省哪里？':'宝，我帮你看了！购物这块有点猛，占了46%，比建议高了不少。另外发现你有3笔咖啡消费合计¥87，办个会员卡能省30%。小钱也是钱哦！','攒钱小妙招有吗？':'当然有！① 每次还款后把「省下的手续费」转余额宝；② 超市用会员价+花呗立减叠加；③ 每周五做「消费周报」，看到自己省了钱会有成就感的！','哥们我又超支了':'哈哈哈超支了还有脸来找我！购物46%，你是去商场住了吗？🤣 别急，还有¥1153，这周先把手剁了（开玩笑），把购物app通知关掉，管住手就行。','这笔分期值不值？':'值不值我得看金额！说个数，我给你算年化利率，让你看清楚到底多付了多少钱。有时候分期看起来便宜，其实挺贵的。','我月光了你说我':'月光族中的月光族！但说真的，月光不是你的问题，是没有预算计划。给你出个方案：下个月先从「每天不超过¥100」开始，简单可执行，比什么「财务目标」都管用。','给我整个省钱方案':'好嘞！根据你的消费数据：①购物预算砍¥200；②每周设一天「无消费日」；③咖啡办会员省30%。三招加起来一个月能省¥350+，一年¥4200，够旅游一次了。'};
+let curIT=0,curPeriodN=6,curPers='a',hist=[],todXP=10,curFilter='all',isListening=false,recog=null;
+function rCATS(){document.getElementById('catL').innerHTML=CATS.map((c,i)=>{const p=Math.round(c.s/c.b*100),ov=p>85;return`<div style="${i?'border-top:.5px solid #f2f2f7;padding-top:8px;margin-top:8px':''}"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><div style="font-size:13px;color:#1c1c1e;">${c.n}</div><div style="font-size:11px;color:${ov?'#E24B4A':'#888'};">¥${c.s}/¥${c.b}${ov?' 超限':''}</div></div><div class="pt"><div class="pf" style="width:${Math.min(p,100)}%;background:${ov?'#E24B4A':c.c};"></div></div></div>`;}).join('');}
+function rALTS(){document.getElementById('altL').innerHTML=ALTS.map((a,i)=>`<div style="${i?'border-top:.5px solid #f2f2f7;padding-top:8px;margin-top:8px':''}display:flex;align-items:center;gap:10px;"><button class="tog${a.on?' on':''}" id="${a.id}" onclick="togA('${a.id}')"></button><div style="flex:1;"><div style="font-size:13px;color:#1c1c1e;">${a.l}</div><div style="font-size:10px;color:#999;">${a.d}</div></div>${a.tag?`<span style="background:#E1F5EE;color:#085041;padding:2px 7px;border-radius:8px;font-size:10px;font-weight:500;">${a.tag}</span>`:''}</div>`).join('');}
+function rDT(){document.getElementById('dtL').innerHTML=DT.map(t=>`<div class="tk"><div class="ck ${t.ok?'ok':''}" id="dt_${t.id}" onclick="togT('${t.id}')">${t.ok?'<svg width="10" height="10" viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#fff" stroke-width="1.5" fill="none"/></svg>':''}</div><div style="font-size:13px;color:${t.ok?'#bbb':'#1c1c1e'};flex:1;${t.ok?'text-decoration:line-through;':''}">${t.t}</div><div style="font-size:11px;color:#D85A30;font-weight:500;flex-shrink:0;">+${t.x}分</div></div>`).join('');}
+function calcI(){const a=parseFloat(document.getElementById('iAmt').value)||0,r=RATES[curPeriodN],fee=a*r,tot=a+fee,mo=tot/curPeriodN,apr=(r/curPeriodN*12*100).toFixed(1);document.getElementById('iRes').innerHTML=`<div class="ct">分期详情·${curPeriodN}期</div><div class="rg"><div class="ri"><div class="rv">¥${mo.toFixed(2)}</div><div class="rl">每月还款</div></div><div class="ri"><div class="rv" style="color:#E24B4A;">¥${fee.toFixed(2)}</div><div class="rl">总手续费</div></div><div class="ri"><div class="rv">¥${tot.toFixed(2)}</div><div class="rl">实际总支出</div></div><div class="ri"><div class="rv" style="color:#E24B4A;">${apr}%</div><div class="rl">参考年化</div></div></div><div style="font-size:11px;color:#999;line-height:1.5;">分${curPeriodN}期买¥${a}，实际多支出¥${fee.toFixed(0)}，年化约${apr}%。</div>`;let w=curPeriodN>=12?`${curPeriodN}期跨度超一年，还款压力较大，建议6期以内。`:fee>100?`手续费¥${fee.toFixed(0)}不低，考虑延后全款是否更划算？`:`手续费¥${fee.toFixed(0)}（${(RATES[curPeriodN]*100).toFixed(1)}%），月还款¥${mo.toFixed(0)}，确认在预算内再操作。`;document.getElementById('iWarn').innerHTML=`<div style="font-size:12px;font-weight:500;color:#BA7517;margin-bottom:3px;">理性提示</div><div style="font-size:12px;color:#633806;line-height:1.5;">${w}</div>`;}
+function rFilters(){document.getElementById('fSeg').innerHTML=[{id:'all',l:'全部'},{id:'lc',l:'理财'},{id:'jj',l:'基金'},{id:'lj',l:'附近优惠'}].map(f=>`<button class="fseg ${curFilter===f.id?'on':''}" onclick="fG('${f.id}')">${f.l}</button>`).join('');}
+function rPosts(){const posts=curFilter==='all'?ALL_POSTS:ALL_POSTS.filter(p=>p.g===curFilter);document.getElementById('postFeed').innerHTML=posts.map(p=>`<div class="post"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div class="ava" style="background:${p.uc};color:${p.utc};">${p.uid}</div><div style="flex:1;"><div style="font-size:12px;font-weight:500;color:#1c1c1e;">${p.user}</div><div style="font-size:10px;color:#999;">${p.time}</div></div><span class="tag" style="background:${p.lblbg};color:${p.lbltc};">${p.lbl}</span></div><div style="font-size:13px;color:#1c1c1e;line-height:1.6;margin-bottom:9px;">${p.content}</div><div style="display:flex;gap:4px;border-top:.5px solid #f2f2f7;padding-top:7px;"><button class="lbtn ${p.liked?'liked':''}" id="lb_${p.id}" onclick="togLike(${p.id})"><svg viewBox="0 0 24 24" fill="${p.liked?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span id="lc_${p.id}">${p.likes}</span></button><button class="lbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>${p.cmts}</span></button></div></div>`).join('');}
+function rPresets(){const arr=PRESETS[curPers];document.getElementById('presetWrap').innerHTML=arr.map(q=>`<button class="qchip" onclick="usePreset('${q}')">${q}</button>`).join('');}
+function sw(i){[0,1,2].forEach(j=>{document.getElementById('s'+j).classList.toggle('active',j===i);document.getElementById('n'+j).classList.toggle('on',j===i);});document.querySelector('.content').scrollTop=0;}
+function setIT(i){curIT=i;[0,1,2].forEach(j=>{document.getElementById('it'+j).classList.toggle('on',j===i);document.getElementById('ic'+j).classList.toggle('on',j===i);});}
+function selP(p){curPeriodN=p;document.querySelectorAll('#pSeg .segb').forEach((b,j)=>b.classList.toggle('on',[3,6,12,24][j]===p));calcI();}
+function togA(id){const a=ALTS.find(x=>x.id===id);if(a){a.on=!a.on;rALTS();}}
+function togT(id){const t=DT.find(x=>x.id===id);if(!t)return;if(!t.ok){t.ok=true;todXP+=t.x;}else{t.ok=false;todXP-=t.x;}document.getElementById('todXP').textContent=`今日+${todXP}分`;rDT();}
+function fG(id){curFilter=id;rFilters();rPosts();}
+function togLike(id){const p=ALL_POSTS.find(x=>x.id===id);if(!p)return;p.liked=!p.liked;p.likes+=p.liked?1:-1;const btn=document.getElementById('lb_'+id),cnt=document.getElementById('lc_'+id);if(btn){btn.classList.toggle('liked',p.liked);btn.querySelector('svg').setAttribute('fill',p.liked?'currentColor':'none');}if(cnt)cnt.textContent=p.likes;}
+function setP(p){curPers=p;['a','b','c'].forEach(x=>document.getElementById('p'+x).classList.toggle('on',x===p));hist=[];document.getElementById('chatM').innerHTML='';const w={a:'你好，我是你的花呗财务顾问。基于你的消费数据，我可以帮你分析结构、制定预算、计算分期成本。有什么问题？',b:'宝，来啦！花了多少钱啦？有没有想买但是犹豫的东西？跟我说说～',c:'又来找我了？哈哈，本月购物超支可别来找我哭😂 说吧，什么事？'};addAI(w[p]);rPresets();}
+function rPresets(){const arr=PRESETS[curPers];document.getElementById('presetWrap').innerHTML=arr.map(q=>`<button class="qchip" onclick="usePreset('${q}')">${q}</button>`).join('');}
+function addAI(t){const e=document.createElement('div');e.className='msg ai';e.textContent=t;const m=document.getElementById('chatM');m.appendChild(e);m.scrollTop=9999;}
+function addMe(t){const e=document.createElement('div');e.className='msg me';e.textContent=t;const m=document.getElementById('chatM');m.appendChild(e);m.scrollTop=9999;}
+function showDots(){const e=document.createElement('div');e.className='msg ai';e.innerHTML='<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';document.getElementById('chatM').appendChild(e);document.getElementById('chatM').scrollTop=9999;return e;}
+function usePreset(q){document.getElementById('presetWrap').style.display='none';addMe(q);hist.push({role:'user',content:q});const rep=PRESET_REPLIES[q];if(rep){setTimeout(()=>addAI(rep),500);hist.push({role:'assistant',content:rep});}else{doApiCall(q);}}
+async function doC(){const inp=document.getElementById('ci');const txt=inp.value.trim();if(!txt)return;inp.value='';document.getElementById('presetWrap').style.display='none';addMe(txt);hist.push({role:'user',content:txt});await doApiCall(txt);}
+async function doApiCall(txt){const d=showDots();const sys=`你是花呗AI智伴，以${['严谨财务顾问','贴心闺蜜','幽默损友'][['a','b','c'].indexOf(curPers)]}风格回答。用户数据：月预算¥3000，已花¥1847，剩余¥1153，购物超出建议16%，Lv.2，积分280。中文不超过100字。`;try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:180,system:sys,messages:hist})});const j=await r.json();d.remove();const rep=j.content?.[0]?.text||'网络出问题了，稍后再试。';hist.push({role:'assistant',content:rep});addAI(rep);}catch(e){d.remove();addAI('网络出了小差，稍后再试～');}}
+function initRecog(onResult,onEnd){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return null;const r=new SR();r.lang='zh-CN';r.continuous=false;r.interimResults=false;r.onresult=e=>{onResult(e.results[0][0].transcript);};r.onend=()=>{if(onEnd)onEnd();};r.onerror=()=>{if(onEnd)onEnd();};return r;}
+function togMic(){const btn=document.getElementById('micBtn'),hint=document.getElementById('voiceHint');if(isListening){if(recog)recog.stop();isListening=false;btn.classList.remove('on');hint.style.display='none';return;}recog=initRecog(txt=>{document.getElementById('ci').value=txt;isListening=false;btn.classList.remove('on');hint.style.display='none';setTimeout(doC,400);},()=>{isListening=false;btn.classList.remove('on');hint.style.display='none';});if(!recog){addAI('当前环境不支持语音识别，请直接输入文字。');return;}recog.start();isListening=true;btn.classList.add('on');hint.style.display='block';}
+window.addEventListener('DOMContentLoaded',()=>{rCATS();rALTS();rDT();calcI();rFilters();rPosts();addAI('你好，我是你的花呗财务顾问。基于你的消费数据，我可以帮你分析结构、制定预算、计算分期成本。有什么问题？');rPresets();});
+</script>
+</body>
+</html>
